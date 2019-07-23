@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>index</title>
+	<style>	
+		.tb{
+			/*cellpanding:0;*/
+			text-align: center;	
+		}
+	</style>
+	<script src="js/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<h1>登记表</h1>
+		姓名：<input type="text" placeholder="请输入姓名" v-model='username'> <br>
+		年龄：<input type="text" placeholder="请输入年龄" v-model='userage'>
+		<br>
+		<br>
+		<button @click="add">添加</button>
+		<button @click="reset">重置</button>
+		<br>
+		<p>信息表</p>	
+		<table border="1" cellspacing="0" width="600px"  class="tb">	
+			<tr>	
+				<th>期数</th>
+				<th>年龄</th>	
+				<th>姓名</th>	
+				<th>操作</th>	
+			</tr>
+		
+			<!-- 循环部分 -->
+			<!-- <tr>	
+				<td>1</td>		
+				<td>22</td>		
+				<td>Boss</td>		
+				<td>
+					<button>删除</button>
+				</td>		
+			</tr> -->
+
+			<tr v-for="(item,index) of newarr">
+				<td>{{index+1}}</td>
+				<td>{{item.addage}}</td>
+				<td>{{item.addname}}</td>
+				<td>
+					<button @click="delsomeone(index)">删除</button>
+				</td>
+			</tr>
+
+
+			<tr>
+				<td colspan="4">	
+					<button class="delall" @click="delall">删除全部</button>
+				</td>	
+			</tr>	
+
+		</table>
+
+	</div>
+
+	<script>
+
+		new Vue({
+				el:'#app',
+				data:{
+					username:'',
+					userage:'',
+					startnum:0,
+					// msg:{},
+					newarr:[],
+
+					dataarr:[
+					{"num":1,"age":22,"name":'施德州'},
+					{"num":2,"age":20,"name":'尚尚'},
+					]
+
+				},
+				methods:{
+					//添加数据
+					add() 
+					{	
+						if(this.username==='' || this.userage==='')
+						{
+							alert('信息不完整');
+							return
+						}
+						// console.log('add');
+						let num = this.startnum;
+
+						// console.log(num);
+						let msg = {};
+						let name = this.username;
+						let age = this.userage;
+						// console.log(name,age);
+						msg.addname = name;
+						msg.addage = age;
+						// console.log(this.msg);
+
+						this.newarr.push(msg)
+						// console.log(this.newarr)
+						
+						
+						//添加后，表单置空 
+						this.username='';
+						this.userage='';
+						
+
+
+					},
+
+					//重置input值
+					reset() 
+					{
+						// console.log('reset');
+						this.username='';
+						this.userage='';
+					},
+					delsomeone(index)
+					{
+						// console.log(index);
+						this.newarr.splice(index,1)
+					},
+
+					delall()
+					{
+						this.newarr = [];
+						// console.log(this.newarr)
+					}
+
+				}
+
+		})
+
+	</script>
+</body>
+</html>
